@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for, redirect
 import giphypop
 import os
 from dotenv import load_dotenv, find_dotenv
@@ -8,83 +8,35 @@ app = Flask(__name__)
 #API Key from Giphy
 giphy = os.environ['GIPHY_PUBLIC_API']
 
-#adjusting the search (have to fix the search)
-search_terms = #["horse", "head", "mask"]
-field_keywords = "+".join(search_terms)
-url = "http://api.giphy.com/v1/gifs/search?q=" + field_keywords + "api_key=" + giphy
-
 @app.route('/')
 def index():
-    name = request.values.get('name', 'Nobody')
-    greeting = "Hello {}".format(name)
-    return render_template('results_true.html', greeting=greeting)
+	return render_template('results_true.html') 
 
-app.run(debug=True)
-
-#@app.route('/about')
-#def about():
-#    return render_template('about_page.html')
-
-#@app.route('/results')
-#def results():
-#    stock = request.values.get('stock')
-#    price = get_stock_price(stock)
-#    return render_template('results.html', price=price)
-
-#Fixing the giphy API
-
-#slack = Slacker(os.environ['SLACK_API_TOKEN'])
-#api_key = os.environ['FORECASTIO_API_TOKEN']
-
-#def get_weather(address, api_key):
- #   geolocator = Nominatim()
-  #  location = geolocator.geocode(address)
-   # if location == None:
-    #    return "Location not found."
-    #else:
-     #   forecast = forecastio.load_forecast(api_key, location.latitude, location.longitude).currently()
-      #  return "{} and {} in {} and it is Hillary's fault!".format(forecast.summary, forecast.temperature, location.address)
-
-#print(get_weather("3022 Broadway, NYC", api_key))
-#slack.chat.post_message('#bots', get_weather("NYC", api_key), username="Donald", icon_url="http://images.huffingtonpost.com/2016-02-15-1455534387-1672884-nbcfiresdonaldtrumpafterhecallsmexicansrapistsanddrugrunners.jpg")
-
-
-
-
-
-
-
-
-
-
-
-
-def get_stock_price(ticker):
-    quotes = getQuotes(ticker)
-    price = quotes[0]['LastTradePrice']
-    return "The price of {} is {}".format(ticker, price)
-
-@app.route('/')
-def index():
-    name = request.values.get('name', 'Nobody')
-    greeting = "Hello {}".format(name)
-    return render_template('index.html', greeting=greeting)
-
+@app.route('/results')
+def results():
+    for result in results:
+    	print(result.media_url)
+    	print(result.url)
+ 
 @app.route('/about')
 def about():
     return render_template('about_page.html')
 
-@app.route('/results')
-def results():
-    stock = request.values.get('stock')
-    price = get_stock_price(stock)
-    return render_template('results.html', price=price)
+port = int(os.environ.get("PORT", 5000))
+app.run(host="0.0.0.0", port=port)
 
-#@app.route('/users/<username>')
-#def profile():
-#    return render_template('profile.html', user=user)    
 
-app.run(debug=True)
+# Need to use translate to turn search term into gif image
+
+
+
+# You've decided to:
+
+# Create a new Flask web app where users can search for GIFs by a specific term
+# Search the Giphy API using the giphypop (Links to an external site.) library
+# Display the results to the user using thumbnails with links to the full GIF url
+# Use Git and Github for version control, and Heroku to host the website
+
 
 
 
